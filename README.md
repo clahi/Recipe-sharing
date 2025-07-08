@@ -12,3 +12,4 @@ Our application should serve two different profiles: admins and end users.
  - End users/consumers: The end user, who uses the platform for accessing a specific recipe, and should not be able to create, change, or delete any record.
 
  We will start with two different pages, **/users** for the end users and **/admin** for admins, to support the two differnt personas.
+ ![Initial Page](images/initial.png)
