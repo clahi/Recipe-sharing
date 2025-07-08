@@ -34,3 +34,15 @@ Our application should serve two different profiles: admins and end users.
 - Responsive.
 
 ![Admin](images/admin%20setup.drawio.png)
+
+## Non-functional requirements
+
+- Global distribution to serve users spread across the globe.
+- Auto-scaling to handle the spiky usage pattern.
+- Cost-effectiveness.
+
+## Technical requirements
+
+- Modern frontend framework - React.js
+- Backend programming language - Python
+- FastAPI as the framework for API development.
