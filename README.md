@@ -33,4 +33,4 @@ Our application should serve two different profiles: admins and end users.
 - Control the maximum amount of ingredients, steps, and recipes supported
 - Responsive.
 
-![Admin](images/admin%20setup.drawio.png)
+![Admin](images/admin%20setup.drawio)
