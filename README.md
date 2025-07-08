@@ -64,3 +64,12 @@ recipe_example.json:
     "Steps": [...]
 }
 </pre>
+
+## API structure
+The data operaions we need include the following:
+- **GET /recipes**: This gets the list of recipes.
+- **GET /healh**: This is a simple health check endpoint.
+- **DELETE /recipes{recipe_id}**: This deletes a specific recipe with a defined ID.
+- **POST /recipes**: This creates a new recipe record.
+
+![API](images/api.drawio.png)
