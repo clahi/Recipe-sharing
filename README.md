@@ -18,9 +18,9 @@ Our application should serve two different profiles: admins and end users.
  Breaking down the different functionalities and interfaces.
 
  **/user**
- 
-    - Access the list of recipe titles
-    - Ability to choose a specific recipe and access all the details.
-    - Responsive
+
+- Access the list of recipe titles
+- Ability to choose a specific recipe and access all the details.
+- Responsive.
 
 ![User](images/user%20setup.drawio.png)
