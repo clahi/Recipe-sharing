@@ -73,3 +73,11 @@ The data operaions we need include the following:
 - **POST /recipes**: This creates a new recipe record.
 
 ![API](images/api.drawio.png)
+
+## Architecture
+For frontend, we will use Amazon S3 and Amazon CloudFront to serve our application. The compute layer is implemented in Amazon EC2, and that's where we will deploy our API. 
+For the data layer, we will use Amazon DynamoDB as our data store. For simplicity, we will group both the compute and data layers in a single layer called the backend.
+
+Here is the our complete archtecture for our project.
+
+![Architecture](images/Architecture.drawio.png)
