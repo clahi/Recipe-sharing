@@ -25,7 +25,7 @@ Our application should serve two different profiles: admins and end users.
 
 ![User](images/user%20setup.drawio.png)
 
-**/user**
+**/admin**
 
 - Access the list of recipe titles.
 - Ability to delete recipes.
