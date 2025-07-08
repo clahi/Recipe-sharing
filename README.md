@@ -46,3 +46,21 @@ Our application should serve two different profiles: admins and end users.
 - Modern frontend framework - React.js
 - Backend programming language - Python
 - FastAPI as the framework for API development.
+
+## Data requirements
+
+Operations to implement are the following:
+
+- **List the recipes**: Present a list of the recipes created.
+- **Delete a recipe**: If an admin no longer wants a speccific recipe to be part of the portfolio, it should be possible to delete the item.
+- **Create a recipe**: Create a new recipe to share with the users.
+
+recipe_example.json:
+<pre>
+{
+    "ID": "GUID",
+    "Title": "recipe title",
+    "Ingredients": [...],
+    "Steps": [...]
+}
+</pre>
