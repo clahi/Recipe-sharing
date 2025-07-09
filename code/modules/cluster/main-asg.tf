@@ -76,7 +76,7 @@ resource "aws_security_group_rule" "allow_https" {
 }
 
 resource "aws_security_group_rule" "allow_outgoing" {
-  type = "engress"
+  type = "egress"
   security_group_id = aws_security_group.allow_web_traffic.id
 
   from_port = 0
