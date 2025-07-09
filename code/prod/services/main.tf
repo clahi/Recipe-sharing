@@ -43,5 +43,5 @@ module "auto_scaling_group" {
   ami           = data.aws_ami.amazon_linux.id
   subnet_ids    = [module.vpc.private_subnetA, module.vpc.private_subnetB]
 
-  user_data = base64encode(templatefile("${path.module}/user_data/user_data.sh"))
+  user_data = base64encode(templatefile("${path.module}/user_data/user_data.sh"), {})
 }
