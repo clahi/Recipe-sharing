@@ -2,7 +2,7 @@ locals {
   http_port = 80
   any_port = 0
   any_protocol = "-1"
-  tcp_protocl = "tcp"
+  tcp_protocol = "tcp"
   all_ips = ["0.0.0.0/0"]
 }
 
@@ -26,7 +26,6 @@ resource "aws_autoscaling_group" "asg" {
   launch_template {
     id = aws_launch_template.server_cluster.id
   }
-
   # The subnets to deploy the ec2 server, which in this case should be the private subnets
   vpc_zone_identifier = var.subnet_ids
 
@@ -61,8 +60,8 @@ resource "aws_security_group_rule" "allow_http" {
 
   from_port = 80
   to_port = 80
-  protocol = local.tcp_protocl
-  cidr_blocks = local.all_ips
+  protocol = local.tcp_protocol
+  cidr_blocks = ["10.0.0.0/16"]
 }
 
 resource "aws_security_group_rule" "allow_https" {
@@ -71,8 +70,8 @@ resource "aws_security_group_rule" "allow_https" {
 
   from_port = 443
   to_port = 443
-  protocol = local.tcp_protocl
-  cidr_blocks = local.all_ips
+  protocol = local.tcp_protocol
+  cidr_blocks = ["10.0.0.0/16"]
 }
 
 resource "aws_security_group_rule" "allow_outgoing" {

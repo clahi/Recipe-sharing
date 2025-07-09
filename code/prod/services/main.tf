@@ -43,5 +43,8 @@ module "auto_scaling_group" {
   ami           = data.aws_ami.amazon_linux.id
   subnet_ids    = [module.vpc.private_subnetA, module.vpc.private_subnetB]
 
+  target_group_arns = [module.application_load_balancer.alb_target_group]
+  health_check_type = "ELB"
+
   user_data = base64encode(templatefile("${path.module}/user_data/user_data.sh", {}))
 }
