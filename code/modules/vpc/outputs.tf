@@ -17,3 +17,8 @@ output "private_subnetB" {
   value = aws_subnet.private_subnetB.id
   description = "The id of the private subnetB"
 }
+
+output "vpc_id" {
+  value = aws_vpc.main.id
+  description = "The vpc id"
+}

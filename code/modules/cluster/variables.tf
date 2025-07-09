@@ -3,6 +3,11 @@ variable "cluster_name" {
   type = string
 }
 
+variable "vpc_id" {
+  description = "The vpc to deploy the infrastructure"
+  type = string
+}
+
 variable "instance_type" {
   description = "THe type of EC2 instances to run."
   type = string

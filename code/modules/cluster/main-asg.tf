@@ -10,6 +10,8 @@ resource "aws_launch_template" "server_cluster" {
   name = "${var.cluster_name}-lauch-template"
   image_id = var.ami
   instance_type = var.instance_type
+  
+  vpc_security_group_ids = [aws_security_group.allow_web_traffic.id]
 
   instance_initiated_shutdown_behavior = "terminate"
 
@@ -45,4 +47,40 @@ resource "aws_autoscaling_group" "asg" {
       min_healthy_percentage = 50
     }
   }
+}
+
+# A security group that allows http & https traffic
+resource "aws_security_group" "allow_web_traffic" {
+  name = "${var.cluster_name}-sg"
+  vpc_id = var.vpc_id
+}
+
+resource "aws_security_group_rule" "allow_http" {
+  type = "ingress"
+  security_group_id = aws_security_group.allow_web_traffic.id
+
+  from_port = 80
+  to_port = 80
+  protocol = local.tcp_protocl
+  cidr_blocks = local.all_ips
+}
+
+resource "aws_security_group_rule" "allow_https" {
+  type = "ingress"
+  security_group_id = aws_security_group.allow_web_traffic.id
+
+  from_port = 443
+  to_port = 443
+  protocol = local.tcp_protocl
+  cidr_blocks = local.all_ips
+}
+
+resource "aws_security_group_rule" "allow_outgoing" {
+  type = "engress"
+  security_group_id = aws_security_group.allow_web_traffic.id
+
+  from_port = 0
+  to_port = 0
+  protocol = local.any_protocol
+  cidr_blocks = local.all_ips
 }
