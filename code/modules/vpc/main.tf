@@ -14,10 +14,6 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-resource "aws_internet_gateway_attachment" "ig_attachment" {
-  internet_gateway_id = aws_internet_gateway.gw.id
-  vpc_id              = aws_vpc.main.id
-}
 
 # Creating public subnets
 resource "aws_subnet" "public_subnetA" {
