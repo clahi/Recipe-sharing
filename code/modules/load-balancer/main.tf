@@ -17,6 +17,7 @@ resource "aws_lb" "application_lb" {
 # Security group for ALB to allow access from 80 & 443
 resource "aws_security_group" "alb" {
   name = var.alb_name
+  vpc_id = var.vpc_id
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http" {
