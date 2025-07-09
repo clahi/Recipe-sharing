@@ -20,16 +20,6 @@ proxy_pass http://localhost:8000;
 }
 EOF
 
-# cat << EOF > /etc/nginx/sites-available/fastapi
-# server {
-# listen 80;
-# server_name ~.;
-# location / {
-# proxy_pass http://localhost:8000;
-# }
-# }
-# EOF
-
 sudo ln -s /etc/nginx/sites-available/fastapi /etc/nginx/sites-enabled/
 sudo systemctl restart nginx
 virtualenv .venv
