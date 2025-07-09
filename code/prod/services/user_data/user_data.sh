@@ -26,3 +26,15 @@ virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python3 -m uvicorn main:app &
+
+# #!/bin/bash
+# cat > index.html <<EOF
+# <h1>Hello</h1>
+# <h2>This is the environment </h2>
+# <p>DB address: </p>
+# <p>DB port: </p>
+
+
+# EOF
+
+# nohup busybox httpd -f -p 8080 &

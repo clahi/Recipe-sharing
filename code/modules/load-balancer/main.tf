@@ -20,28 +20,34 @@ resource "aws_security_group" "alb" {
   vpc_id = var.vpc_id
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_http" {
+resource "aws_security_group_rule" "allow_http" {
+  type = "ingress"
   security_group_id = aws_security_group.alb.id
-  cidr_ipv4 = "0.0.0.0/0"
-  from_port = local.http_port
-  to_port = local.http_port
-  ip_protocol = local.tcp_protocol
+
+  from_port = 80
+  to_port = 80
+  protocol = "tcp"
+  cidr_blocks = local.all_ips
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_https" {
+resource "aws_security_group_rule" "allow_https" {
+  type = "ingress"
   security_group_id = aws_security_group.alb.id
-  cidr_ipv4 = "0.0.0.0/0"
+
   from_port = 443
   to_port = 443
-  ip_protocol = local.tcp_protocol
+  protocol = "tcp"
+  cidr_blocks = local.all_ips
 }
 
-resource "aws_vpc_security_group_egress_rule" "allow_all_outbound" {
+resource "aws_security_group_rule" "allow_all_outbound" {
+  type = "egress"
   security_group_id = aws_security_group.alb.id
-  cidr_ipv4 = "0.0.0.0/0"
-  from_port = local.any_port
-  to_port = local.any_port
-  ip_protocol = local.any_protocol
+
+  from_port = 0
+  to_port = 0
+  protocol = "-1"
+  cidr_blocks = local.all_ips
 }
 
 # Creating a listener for the Alb

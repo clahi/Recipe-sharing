@@ -40,8 +40,10 @@ module "auto_scaling_group" {
   instance_type = "t2.micro"
   min_size      = 2
   max_size      = 2
-  ami           = data.aws_ami.amazon_linux.id
-  subnet_ids    = [module.vpc.private_subnetA, module.vpc.private_subnetB]
+  # ami           = data.aws_ami.amazon_linux.id
+  ami = "ami-0a7d80731ae1b2435"
+  # subnet_ids    = [module.vpc.private_subnetA, module.vpc.private_subnetB]
+  subnet_ids    = [module.vpc.public_subnetA, module.vpc.public_subnetB]
 
   target_group_arns = [module.application_load_balancer.alb_target_group]
   health_check_type = "ELB"
