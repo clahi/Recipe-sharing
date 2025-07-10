@@ -16,6 +16,15 @@ resource "aws_launch_template" "server_cluster" {
   instance_initiated_shutdown_behavior = "terminate"
 
   user_data = var.user_data
+
+  # user_data = base64encode(
+  #   <<-EOF
+  #              #!/bin/bash
+  #              echo "Hello, World" > index.html
+  #              nohup busybox httpd -f -p 80 &
+  #              EOF
+  # )
+
 }
 
 resource "aws_autoscaling_group" "asg" {
@@ -61,19 +70,9 @@ resource "aws_security_group_rule" "allow" {
   from_port = 80
   to_port = 80
   protocol = local.tcp_protocol
-  cidr_blocks = local.all_ips
+  cidr_blocks = ["10.0.0.0/16"]
 }
 
-resource "aws_security_group_rule" "allow_http" {
-  type = "ingress"
-  security_group_id = aws_security_group.allow_web_traffic.id
-
-  from_port = 8080
-  to_port = 8080
-  protocol = local.tcp_protocol
-  # cidr_blocks = ["10.0.0.0/16"]
-  cidr_blocks = local.all_ips
-}
 
 resource "aws_security_group_rule" "allow_ssh" {
   type = "ingress"
@@ -82,7 +81,7 @@ resource "aws_security_group_rule" "allow_ssh" {
   from_port = 22
   to_port = 22
   protocol = local.tcp_protocol
-  cidr_blocks = local.all_ips
+  cidr_blocks = ["10.0.0.0/16"]
 }
 
 resource "aws_security_group_rule" "allow_https" {
