@@ -54,14 +54,35 @@ resource "aws_security_group" "allow_web_traffic" {
   vpc_id = var.vpc_id
 }
 
-resource "aws_security_group_rule" "allow_http" {
+resource "aws_security_group_rule" "allow" {
   type = "ingress"
   security_group_id = aws_security_group.allow_web_traffic.id
 
   from_port = 80
   to_port = 80
   protocol = local.tcp_protocol
-  cidr_blocks = ["10.0.0.0/16"]
+  cidr_blocks = local.all_ips
+}
+
+resource "aws_security_group_rule" "allow_http" {
+  type = "ingress"
+  security_group_id = aws_security_group.allow_web_traffic.id
+
+  from_port = 8080
+  to_port = 8080
+  protocol = local.tcp_protocol
+  # cidr_blocks = ["10.0.0.0/16"]
+  cidr_blocks = local.all_ips
+}
+
+resource "aws_security_group_rule" "allow_ssh" {
+  type = "ingress"
+  security_group_id = aws_security_group.allow_web_traffic.id
+
+  from_port = 22
+  to_port = 22
+  protocol = local.tcp_protocol
+  cidr_blocks = local.all_ips
 }
 
 resource "aws_security_group_rule" "allow_https" {
@@ -74,15 +95,7 @@ resource "aws_security_group_rule" "allow_https" {
   cidr_blocks = ["10.0.0.0/16"]
 }
 
-resource "aws_security_group_rule" "allow_ssh" {
-  type = "ingress"
-  security_group_id = aws_security_group.allow_web_traffic.id
 
-  from_port = 22
-  to_port = 22
-  protocol = local.tcp_protocol
-  cidr_blocks = local.all_ips
-}
 
 resource "aws_security_group_rule" "allow_outgoing" {
   type = "egress"
