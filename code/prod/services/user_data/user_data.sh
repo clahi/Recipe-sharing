@@ -34,7 +34,6 @@ cat > index.html <<EOF
 <p>DB address: </p>
 <p>DB port: </p>
 
-
 EOF
 
-nohup busybox httpd -f -p 8080 &
+nohup busybox httpd -f -p 80 &
