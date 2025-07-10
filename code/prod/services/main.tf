@@ -41,7 +41,7 @@ module "auto_scaling_group" {
   min_size      = 2
   max_size      = 2
   # ami           = data.aws_ami.amazon_linux.id
-  ami = "ami-0a7d80731ae1b2435"
+  ami = "ami-020cba7c55df1f615"
   # subnet_ids    = [module.vpc.private_subnetA, module.vpc.private_subnetB]
   subnet_ids    = [module.vpc.public_subnetA, module.vpc.public_subnetB]
 
