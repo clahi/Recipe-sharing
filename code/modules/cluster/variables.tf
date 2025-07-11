@@ -49,3 +49,8 @@ variable "user_data" {
   type = string
   default = null
 }
+
+variable "dynamo_arn" {
+  description = "The dynamoDb table arn"
+  type = string
+}

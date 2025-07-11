@@ -51,10 +51,10 @@ module "application_load_balancer" {
 }
 
 module "auto_scaling_group" {
-  source        = "../../modules/cluster"
-  cluster_name  = "web-cluster"
+  source       = "../../modules/cluster"
+  cluster_name = "web-cluster"
   # vpc_id        = module.vpc.vpc_id
-  vpc_id = var.vpc_id
+  vpc_id        = var.vpc_id
   instance_type = "t2.micro"
   min_size      = 2
   max_size      = 2
@@ -66,5 +66,11 @@ module "auto_scaling_group" {
   target_group_arns = [module.application_load_balancer.alb_target_group]
   health_check_type = "ELB"
 
-  user_data = base64encode(templatefile("${path.module}/user_data/user_data.sh", {}))
+  dynamo_arn = module.dynomoDB.dynamo_arn
+  user_data  = base64encode(templatefile("${path.module}/user_data/user_data.sh", {GitRepoURL: "https://github.com/PacktPublishing/AWS-Cloud-Projects.git"}))
+}
+
+module "dynomoDB" {
+  source = "../../modules/data-stores/dynamoDB"
+
 }

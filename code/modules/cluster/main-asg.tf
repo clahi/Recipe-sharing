@@ -13,6 +13,10 @@ resource "aws_launch_template" "server_cluster" {
   
   vpc_security_group_ids = [aws_security_group.allow_web_traffic.id]
 
+  # iam_instance_profile {
+  #   arn = aws_iam_instance_profile.cluster_profile.arn
+  # }
+
   instance_initiated_shutdown_behavior = "terminate"
 
   user_data = var.user_data
@@ -96,3 +100,48 @@ resource "aws_security_group_rule" "allow_outgoing" {
   protocol = local.any_protocol
   cidr_blocks = local.all_ips
 }
+
+# IAM role for the ec2 instances to get access to the dynamo db
+resource "aws_iam_role" "cluster" {
+  name = "web_cluster_dynamodb_role"
+  assume_role_policy = data.aws_iam_policy_document.cluster_assume_role.json
+}
+
+# Allowing the instances to assume the IAM role
+data "aws_iam_policy_document" "cluster_assume_role" {
+  statement {
+    effect = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role_policy" "ec2_policy" {
+  name = "ec2-policy"
+  role = aws_iam_role.cluster.id
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:PutItem",
+          "dynamodb:Scan",
+          "dynamodb:DeleteItem"
+        ]
+        Resource = var.dynamo_arn
+      }
+    ]
+  })
+}
+
+# resource "aws_iam_instance_profile" "cluster_profile" {
+#   name = "dynamodb"
+#   role = aws_iam_role.cluster.name
+# }
