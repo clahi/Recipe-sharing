@@ -13,9 +13,9 @@ resource "aws_launch_template" "server_cluster" {
   
   vpc_security_group_ids = [aws_security_group.allow_web_traffic.id]
 
-  # iam_instance_profile {
-  #   arn = aws_iam_instance_profile.cluster_profile.arn
-  # }
+  iam_instance_profile {
+    name = aws_iam_instance_profile.cluster_profile.name
+  }
 
   instance_initiated_shutdown_behavior = "terminate"
 
@@ -119,8 +119,8 @@ data "aws_iam_policy_document" "cluster_assume_role" {
   }
 }
 
-resource "aws_iam_role_policy" "ec2_policy" {
-  name = "ec2-policy"
+resource "aws_iam_role_policy" "dynamo_access" {
+  name = "dynamo-access"
   role = aws_iam_role.cluster.id
 
   # Terraform's "jsonencode" function converts a
@@ -133,7 +133,8 @@ resource "aws_iam_role_policy" "ec2_policy" {
         Action = [
           "dynamodb:PutItem",
           "dynamodb:Scan",
-          "dynamodb:DeleteItem"
+          "dynamodb:DeleteItem",
+          "dynamodb:GetItem"
         ]
         Resource = var.dynamo_arn
       }
@@ -141,7 +142,7 @@ resource "aws_iam_role_policy" "ec2_policy" {
   })
 }
 
-# resource "aws_iam_instance_profile" "cluster_profile" {
-#   name = "dynamodb"
-#   role = aws_iam_role.cluster.name
-# }
+resource "aws_iam_instance_profile" "cluster_profile" {
+  name = "ec2_dynamodb_profile"
+  role = aws_iam_role.cluster.name
+}

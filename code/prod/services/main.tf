@@ -67,7 +67,7 @@ module "auto_scaling_group" {
   health_check_type = "ELB"
 
   dynamo_arn = module.dynomoDB.dynamo_arn
-  user_data  = base64encode(templatefile("${path.module}/user_data/user_data.sh", {GitRepoURL: "https://github.com/PacktPublishing/AWS-Cloud-Projects.git"}))
+  user_data  = base64encode(templatefile("${path.module}/user_data/user_data.sh", {GitRepoURL="https://github.com/PacktPublishing/AWS-Cloud-Projects.git"}))
 }
 
 module "dynomoDB" {

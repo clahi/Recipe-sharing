@@ -46,10 +46,13 @@ app.add_middleware(
 )
 
 #health check
-
 @app.get("/health", status_code=status.HTTP_200_OK)
 async def health_check():
     return {"message": "Service is healthy"}
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello World"}
 
 # read recipes
 @app.get("/recipes", status_code=status.HTTP_200_OK)
