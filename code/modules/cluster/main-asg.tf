@@ -16,15 +16,6 @@ resource "aws_launch_template" "server_cluster" {
   instance_initiated_shutdown_behavior = "terminate"
 
   user_data = var.user_data
-
-  # user_data = base64encode(
-  #   <<-EOF
-  #              #!/bin/bash
-  #              echo "Hello, World" > index.html
-  #              nohup busybox httpd -f -p 80 &
-  #              EOF
-  # )
-
 }
 
 resource "aws_autoscaling_group" "asg" {

@@ -5,7 +5,7 @@ sudo apt install -y python3 python3-pip python3-virtualenv nginx jq
 GitRepoURL="https://github.com/clahi/Recipe-sharing.git"
 
 git clone $GitRepoURL
-cp -r $(echo $GitRepoURL | sed 's/.*\///' | sed 's/\.git//')code/backend . ; rm -rf $(echo $GitRepoURL | sed 's/.*\///' | sed 's/\.git//') ; cd backend
+cp -r $(echo $GitRepoURL | sed 's/.*\///' | sed 's/\.git//')/code/backend . ; rm -rf $(echo $GitRepoURL | sed 's/.*\///' | sed 's/\.git//') ; cd backend
 
 sed -i "s/SELECTED_REGION/$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')/g" main.py
 
