@@ -77,8 +77,8 @@ resource "aws_security_group_rule" "allow_ssh" {
   from_port = 22
   to_port = 22
   protocol = local.tcp_protocol
-  # cidr_blocks = ["10.0.0.0/16"]
-  cidr_blocks = local.all_ips
+  cidr_blocks = ["10.0.0.0/16"]
+  # cidr_blocks = local.all_ips
 }
 
 resource "aws_security_group_rule" "allow_https" {

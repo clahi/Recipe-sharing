@@ -105,12 +105,12 @@ resource "aws_route_table" "private_route_table" {
   }
 }
 
-# # A route to the nat gateway inside the public subnet
-# resource "aws_route" "nat_route" {
-#   route_table_id = aws_route_table.private_route_table.id
-#   destination_cidr_block = "0.0.0.0/0"
-#   # gateway_id = aws_nat_gateway.public_nat_gateway.id
-# }
+# A route to the nat gateway inside the public subnet
+resource "aws_route" "nat_route" {
+  route_table_id = aws_route_table.private_route_table.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_nat_gateway.public_nat_gateway.id
+}
 
 # Associating the private subnets with the private route table
 resource "aws_route_table_association" "private1a-association" {
@@ -123,19 +123,19 @@ resource "aws_route_table_association" "private1b-association" {
   route_table_id = aws_route_table.private_route_table.id
 }
 
-# # Creating an elastic ip to be associated with a nat gate way
-# resource "aws_eip" "eip" {
-#   tags = {
-#     Name = "eip"
-#   }
-# }
+# Creating an elastic ip to be associated with a nat gate way
+resource "aws_eip" "eip" {
+  tags = {
+    Name = "eip"
+  }
+}
 
-# # A nat gateway for the instances in the private subnet to access the internet
-# resource "aws_nat_gateway" "public_nat_gateway" {
-#   allocation_id = aws_eip.eip.id
-#   subnet_id = aws_subnet.public_subnetA.id
+# A nat gateway for the instances in the private subnet to access the internet
+resource "aws_nat_gateway" "public_nat_gateway" {
+  allocation_id = aws_eip.eip.id
+  subnet_id = aws_subnet.public_subnetA.id
 
-#   tags = {
-#     Name = "public-nat-gateway"
-#   }
-# }
+  tags = {
+    Name = "public-nat-gateway"
+  }
+}
