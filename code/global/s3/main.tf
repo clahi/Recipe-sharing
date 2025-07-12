@@ -6,6 +6,7 @@ resource "aws_s3_bucket" "recipe_bucket" {
   }
 }
 
+<<<<<<< HEAD
 # Setting the s3 bucket to act as a web page host
 resource "aws_s3_bucket_website_configuration" "s3_web_config" {
   bucket = aws_s3_bucket.recipe_bucket.id
@@ -19,6 +20,8 @@ resource "aws_s3_bucket_website_configuration" "s3_web_config" {
   }
 }
 
+=======
+>>>>>>> 237e49aa6fecda982217174204c4ce4f36d57cbb
 # A bucket policy which only allows access from a specific cloudfront
 resource "aws_s3_bucket_policy" "prive_access_policy" {
   bucket = aws_s3_bucket.recipe_bucket.id
@@ -36,7 +39,11 @@ resource "aws_s3_bucket_policy" "prive_access_policy" {
                 "s3:GetObject"
             ],
             "Resource": [
+<<<<<<< HEAD
                  "arn:aws:s3:::${var.bucket_name}/*"
+=======
+                "arn:aws:s3:::${var.bucket_name}/*"
+>>>>>>> 237e49aa6fecda982217174204c4ce4f36d57cbb
             ]
         }
     ]
