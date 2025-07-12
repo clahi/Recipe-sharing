@@ -36,6 +36,7 @@ resource "aws_autoscaling_group" "asg" {
   # configure integrations with a load balancer
   target_group_arns = var.target_group_arns
   health_check_type = var.health_check_type
+  # health_check_type = "EC2"
 
   tag {
     key = "Name"
@@ -76,7 +77,8 @@ resource "aws_security_group_rule" "allow_ssh" {
   from_port = 22
   to_port = 22
   protocol = local.tcp_protocol
-  cidr_blocks = ["10.0.0.0/16"]
+  # cidr_blocks = ["10.0.0.0/16"]
+  cidr_blocks = local.all_ips
 }
 
 resource "aws_security_group_rule" "allow_https" {

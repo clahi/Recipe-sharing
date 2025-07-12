@@ -3,9 +3,18 @@ sudo apt update
 sudo apt install -y python3 python3-pip python3-virtualenv nginx jq
 # GitRepoURL="https://github.com/PacktPublishing/AWS-Cloud-Projects.git"
 git clone ${GitRepoURL}
-cp -r $(echo "${GitRepoURL}" | sed 's/.*\///' | sed 's/\.git//')/chapter3/code/backend . ; rm -rf $(echo "${GitRepoURL}" | sed 's/.*\///' | sed 's/\.git//') ; cd backend
+cp -r $(echo "${GitRepoURL}" | sed 's/.*\///' | sed 's/\.git//')/code/backend . ; rm -rf $(echo "${GitRepoURL}" | sed 's/.*\///' | sed 's/\.git//') ; cd backend
 
-sed -i "s/SELECTED_REGION/$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')/g" main.py
+# sed -i "s/SELECTED_REGION/$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')/g" main.py
+
+# We need a Token authorization to access the region of the ec2
+REGION=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600" | \
+  xargs -I {} curl -s -H "X-aws-ec2-metadata-token: {}" \
+  http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+
+sed -i "s/SELECTED_REGION/${REGION}/g" main.py
+
 
 # Create an Nginx configuration file
 cat << EOF > /etc/nginx/sites-available/fastapi
@@ -20,11 +29,15 @@ EOF
 
 sudo ln -s /etc/nginx/sites-available/fastapi /etc/nginx/sites-enabled/
 sudo systemctl restart nginx
-virtualenv .venv
+
+# Setup python virtualenv and run app in the same shell
+(
+cd /backend
+sudo virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-nohup python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 &
-
+python3 -m uvicorn main:app &
+)
 
 
 # #!/bin/bash

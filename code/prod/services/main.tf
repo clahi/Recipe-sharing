@@ -61,13 +61,13 @@ module "auto_scaling_group" {
   # ami           = data.aws_ami.amazon_linux.id
   ami = "ami-020cba7c55df1f615"
   # subnet_ids    = [module.vpc.private_subnetA, module.vpc.private_subnetB]
-  subnet_ids = data.aws_subnets.private_subnets.ids
+  subnet_ids = data.aws_subnets.public_subnets.ids
 
   target_group_arns = [module.application_load_balancer.alb_target_group]
   health_check_type = "ELB"
 
   dynamo_arn = module.dynomoDB.dynamo_arn
-  user_data  = base64encode(templatefile("${path.module}/user_data/user_data.sh", {GitRepoURL="https://github.com/PacktPublishing/AWS-Cloud-Projects.git"}))
+  user_data  = base64encode(templatefile("${path.module}/user_data/user_data.sh", {GitRepoURL="https://github.com/clahi/Recipe-sharing.git", REGION="us-east-1"}))
 }
 
 module "dynomoDB" {
